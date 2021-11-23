@@ -48,13 +48,22 @@
       </div>
 
       <div class="flex justify-center align-middle w-4/12">
-        <div v-if="!error && isLoading" class="text-cyan-600 self-center font-semibold text-xl">
+        <div
+          v-if="!error && isLoading"
+          class="text-cyan-600 self-center font-semibold text-xl"
+        >
           Läd Daten...
         </div>
-        <div v-if="!error && !isLoading" class="text-green-600 self-center font-semibold text-xl">
+        <div
+          v-if="!error && !isLoading"
+          class="text-green-600 self-center font-semibold text-xl"
+        >
           Daten empfangen.
         </div>
-        <div v-if="error && !isLoading" class="text-red-700 self-center font-semibold text-xl">
+        <div
+          v-if="error && !isLoading"
+          class="text-red-700 self-center font-semibold text-xl"
+        >
           API Fehler :(
         </div>
       </div>
@@ -68,7 +77,16 @@
       </div>
       <div class="flex justify-end w-2/12" v-if="!isLoading">
         <button
-          class="bg-cyan-600 hover:bg-blue-dark text-white text-lg py-2 px-4 rounded h-12 w-full"
+          class="
+            bg-cyan-600
+            hover:bg-blue-dark
+            text-white text-lg
+            py-2
+            px-4
+            rounded
+            h-12
+            w-full
+          "
           @click="this.refreshDevices"
         >
           Aktualisieren
@@ -83,7 +101,7 @@
             <th class="w-6/12 px-2">
               <div
                 class="flex align-middle space-x-6"
-                :class="{'cursor-pointer': sorting !== 'name'}"
+                :class="{ 'cursor-pointer': sorting !== 'name' }"
                 @click="() => changeSorting('name')"
               >
                 <div class="text-white">Name</div>
@@ -95,7 +113,7 @@
             <th class="w-4/12 px-2">
               <div
                 class="flex align-middle space-x-6"
-                :class="{'cursor-pointer': sorting !== 'ip'}"
+                :class="{ 'cursor-pointer': sorting !== 'ip' }"
                 @click="() => changeSorting('ip')"
               >
                 <div class="text-white">IP-Adresse</div>
@@ -216,8 +234,8 @@ export default {
     filterList() {
       const newList = this.devices.filter(
         (dev) =>
-          dev.name.toLowerCase().indexOf(this.filterText.toLowerCase()) !== -1 ||
-          dev.ip.indexOf(this.filterText) !== -1
+          dev.name.toLowerCase().indexOf(this.filterText.toLowerCase()) !==
+            -1 || dev.ip.indexOf(this.filterText) !== -1
       );
       this.sortDevices(newList);
       this.filteredDevices = newList;
@@ -236,9 +254,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 body {
