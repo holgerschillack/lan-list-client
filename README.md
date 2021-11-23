@@ -7,6 +7,7 @@
 
 ## Description
 
+- Vue 2 App with Tailwind CSS
 - shows all clients on the current local network in which the API is started in (see Screenshot)
 - easy and fast, needed it to check newly added ESP8266 devices like Sonoffs, Shellys or other IoT Devices, my Fritzbox is so slooooow
 - intended for local use in a private network
