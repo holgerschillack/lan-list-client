@@ -163,11 +163,12 @@ export default {
       fetch(refresh ? REFRESH_URL : API_URL)
         .then((response) => response.json())
         .then((res) => {
-          Vue.$toast.open({
-            message: "Daten empfangen",
-            position: "top-right",
-            duration: 2000,
-          });
+          if (refresh)
+            Vue.$toast.open({
+              message: "Daten empfangen",
+              position: "top-right",
+              duration: 2000,
+            });
           this.error = false;
           this.isLoading = false;
           this.devices = this.sortDevices(res);
