@@ -1,11 +1,13 @@
 <template>
   <div class="min-h-screen max-w-4xl mx-auto p-6 flex flex-col space-y-4">
-    <h1 class="text-3xl font-semibold text-cyan-600 leading-relaxed">
+    <h1
+      class="text-2xl md:text-3xl font-semibold text-cyan-600 leading-relaxed"
+    >
       Lokales Netzwerk - {{ filteredDevices.length }} Geräte gefunden
     </h1>
 
     <div class="flex flex-row justify-between space-x-2">
-      <div class="flex relative w-1/2 max-w-md">
+      <div class="flex relative w-3/5 max-w-md">
         <input
           class="
             focus:outline-none focus:ring focus:border-cyan-600
@@ -47,35 +49,15 @@
         </button>
       </div>
 
-      <div class="flex justify-center align-middle w-4/12">
-        <div
-          v-if="!error && isLoading"
-          class="text-cyan-600 self-center font-semibold text-xl"
-        >
-          Läd Daten...
-        </div>
-        <div
-          v-if="!error && !isLoading"
-          class="text-green-600 self-center font-semibold text-xl"
-        >
-          Daten empfangen.
-        </div>
-        <div
-          v-if="error && !isLoading"
-          class="text-red-700 self-center font-semibold text-xl"
-        >
-          API Fehler :(
-        </div>
-      </div>
-      <div class="flex justify-end w-2/12" v-if="isLoading">
-        <div class="flex justify-center w-full">
+      <div class="flex justify-end w-2/5" v-if="isLoading">
+        <div class="flex justify-center w-48">
           <div
             style="border-top-color: transparent"
             class="w-12 h-12 border-8 border-cyan-600 rounded-full loader"
           />
         </div>
       </div>
-      <div class="flex justify-end w-2/12" v-if="!isLoading">
+      <div class="flex justify-end w-2/5" v-if="!isLoading">
         <button
           class="
             bg-cyan-600
@@ -85,9 +67,9 @@
             px-4
             rounded
             h-12
-            w-full
+            w-48
           "
-          @click="this.refreshDevices"
+          @click="() => this.fetchDevices(true)"
         >
           Aktualisieren
         </button>
@@ -154,6 +136,8 @@
 </template>
 
 <script>
+import Vue from "vue";
+
 const API_URL = "http://192.168.178.116:4100/api/devices";
 const REFRESH_URL = "http://192.168.178.116:4100/api/refresh";
 
@@ -173,37 +157,29 @@ export default {
     this.fetchDevices();
   },
   methods: {
-    fetchDevices() {
+    fetchDevices(refresh = false) {
       this.isLoading = true;
       this.error = false;
-
-      fetch(API_URL)
+      fetch(refresh ? REFRESH_URL : API_URL)
         .then((response) => response.json())
         .then((res) => {
+          Vue.$toast.open({
+            message: "Daten empfangen",
+            position: "top-right",
+            duration: 2000,
+          });
           this.error = false;
           this.isLoading = false;
           this.devices = this.sortDevices(res);
           this.filterList();
         })
         .catch((err) => {
-          this.error = true;
-          this.isLoading = false;
-          console.log(err);
-        });
-    },
-    refreshDevices() {
-      this.isLoading = true;
-      this.error = false;
-
-      fetch(REFRESH_URL)
-        .then((response) => response.json())
-        .then((res) => {
-          this.error = false;
-          this.isLoading = false;
-          this.devices = this.sortDevices(res);
-          this.filterList();
-        })
-        .catch((err) => {
+          Vue.$toast.open({
+            message: "API Fehler :(",
+            position: "top-right",
+            type: "error",
+            duration: 2000,
+          });
           this.error = true;
           this.isLoading = false;
           console.log(err);
