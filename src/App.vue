@@ -26,6 +26,7 @@
           placeholder="Suche Name oder IP..."
           v-model="filterText"
           @input="filterList"
+          ref="input"
         />
         <button class="absolute right-2 top-3 mr-4">
           <svg
@@ -155,6 +156,7 @@ export default {
   },
   mounted() {
     this.fetchDevices();
+    this.$refs.input.focus();
   },
   methods: {
     fetchDevices(refresh = false) {
